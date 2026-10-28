@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>रोहन सुरक्षा कार्ड</title>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #eef6ff;
+  text-align: center;
+  padding: 20px;
+}
+.card {
+  max-width: 400px;
+  margin: 20px auto;
+  padding: 24px;
+  background: white;
+  border-radius: 18px;
+  box-shadow: 0 3px 12px #bbb;
+}
+h2 { color: #1256a0; }
+p { font-size: 18px; line-height: 1.6; }
+button {
+  width: 100%;
+  padding: 16px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 10px;
+  font-size: 18px;
+  color: white;
+}
+.location { background: #087f5b; }
+.call { background: #1769d2; }
+.note { font-size: 14px; color: #555; }
+</style>
+</head>
+<body>
+<div class="card">
+  <h2>🆘 मला मदत करा</h2>
+  <h3>रोहन नामदेव जाधव</h3>
+  <p>वय: 6 वर्षे</p>
+  <p>शाळा: पोतदार इंग्लिश मीडियम स्कूल</p>
+  <p>मी हरवलो असल्यास कृपया माझ्या वडिलांशी संपर्क साधा.</p>
+
+  <button class="location" onclick="shareLocation()">
+    📍 माझे लोकेशन शेअर करा
+  </button>
+
+  <button class="call" onclick="window.location.href='tel:9075362390'">
+    📞 वडिलांना कॉल करा
+  </button>
+
+  <p class="note">
+    लोकेशन मिळाल्यावर SMS उघडेल.
+    लोकेशन पाठवण्यासाठी Send दाबा.
+  </p>
+</div>
+
+<script>
+function shareLocation() {
+  if (!navigator.geolocation) {
+    alert("या फोनमध्ये लोकेशन सुविधा उपलब्ध नाही.");
+    return;
+  }
+
+  navigator.geolocation.getCurrentPosition(
+    function(pos) {
+      const lat = pos.coords.latitude;
+      const lon = pos.coords.longitude;
+      const map = "https://maps.google.com/?q=" + lat + "," + lon;
+      const msg = "रोहनसाठी मदत हवी आहे. माझे लोकेशन: " + map;
+      window.location.href =
+        "sms:9075362390?body=" + encodeURIComponent(msg);
+    },
+    function() {
+      alert("लोकेशनची परवानगी द्या आणि पुन्हा प्रयत्न करा.");
+    },
+    { enableHighAccuracy: true, timeout: 15000 }
+  );
+}
+</script>
+</body>
+</html>
